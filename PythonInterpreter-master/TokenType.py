@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class TokenType(Enum):
     FUNCTION_TOK = 0
     LEFT_PAREN_TOK = 1

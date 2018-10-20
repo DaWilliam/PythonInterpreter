@@ -1,7 +1,11 @@
 from Parser import Parser
 from Program import Program
 
+
 class Interpreter:
+    def __init__(self):
+        pass
+
     p = Parser("test3.txt")
     print("Program Started")
     prog = p.parse()

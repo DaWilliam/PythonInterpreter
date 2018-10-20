@@ -1,21 +1,21 @@
 from TokenType import TokenType
 
-class Token:
 
+class Token:
     tokType = None
     lexeme = "Didn't Define it Yet"
     rowNumber = -1
     columnNumber = -1
 
     def __init__(self, tokType, lexeme, rowNumber, columnNumber):
-        if tokType == None:
-            raise Exception ("null TokenType argument")
-        if lexeme == None or len(lexeme) == 0:
+        if tokType is None:
+            raise Exception("null TokenType argument")
+        if lexeme is None or len(lexeme) == 0:
             raise Exception("invalid lexeme argument")
         if rowNumber <= 0:
             raise Exception("invalid row number argument")
         if columnNumber <= 0:
-            raise Exception ("invlid column number argment")
+            raise Exception("invlid column number argment")
 
         self.tokType = tokType
         self.lexeme = lexeme

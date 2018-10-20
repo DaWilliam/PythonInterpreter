@@ -1,12 +1,12 @@
 from TokenType import TokenType
 from Token import Token
 
-class LexicalAnalyzer:
 
+class LexicalAnalyzer:
     tokenList = []
 
-    def __init__(self, fileName): #(self, fileName):
-        if fileName == None:
+    def __init__(self, fileName):  # (self, fileName):
+        if fileName is None:
             raise Exception("null file name argument")
         self.tokenList = []
         input = open(fileName, 'r')
@@ -18,7 +18,7 @@ class LexicalAnalyzer:
         self.tokenList.append(Token(TokenType.EOS_TOK, "EOS", lineNumber, 1))
 
     def processLine(self, line, lineNumber):
-        if line == None:
+        if line is None:
             raise Exception("null line argument")
         if lineNumber <= 0:
             raise Exception("invalid line number argument")
@@ -33,7 +33,7 @@ class LexicalAnalyzer:
             index = self.skipWhiteSpace(line, index)
 
     def getTokenType(self, lexeme, rowNumber, columnNumber):
-        if lexeme == None or len(lexeme) == 0:
+        if lexeme is None or len(lexeme) == 0:
             raise Exception("invalid string argument")
         tokType = TokenType.EOS_TOK
 
@@ -41,7 +41,7 @@ class LexicalAnalyzer:
             if self.allDigits(lexeme):
                 tokType = TokenType.LITERAL_INTEGER_TOK
             else:
-                raise Exception("literal integer expecated " + " at row " + rowNumber  + " and column " + columnNumber)
+                raise Exception("literal integer expecated " + " at row " + rowNumber + " and column " + columnNumber)
         elif lexeme[0].isalpha():
             if len(lexeme) == 1:
                 tokType = TokenType.ID_TOK
@@ -68,7 +68,7 @@ class LexicalAnalyzer:
             elif lexeme == "for":
                 tokType = TokenType.FOR_TOK
             else:
-                raise Exception("invalid lexeme " + " at row " + rowNumber  + " and column " + columnNumber)
+                raise Exception("invalid lexeme " + " at row " + rowNumber + " and column " + columnNumber)
 
         elif lexeme == "(":
             tokType = TokenType.LEFT_PAREN_TOK
@@ -99,20 +99,20 @@ class LexicalAnalyzer:
         elif lexeme == ":":
             tokType = TokenType.BETWEEN_TOK
         else:
-            raise Exception("invalid lexeme " + " at row " + rowNumber  + " and column " + columnNumber)
+            raise Exception("invalid lexeme " + " at row " + rowNumber + " and column " + columnNumber)
 
         return tokType
 
     def allDigits(self, lexeme):
-        if lexeme == None:
+        if lexeme is None:
             raise Exception("null string argument")
         i = 0
         while i < len(lexeme) and lexeme[i].isdigit():
             i = i + 1
-        return (i == len(lexeme))
+        return i == len(lexeme)
 
     def getLexeme(self, line, index):
-        if line == None:
+        if line is None:
             raise Exception("null string argument")
         if index < 0:
             raise Exception("incalid index argument")
@@ -121,10 +121,9 @@ class LexicalAnalyzer:
             i = i + 1
 
         if -(len(line) - i) == 0:
-            return line[index : len(line)]
+            return line[index: len(line)]
         else:
-            return line[index : -(len(line) - i)]
-
+            return line[index: -(len(line) - i)]
 
     def skipWhiteSpace(self, line, index):
         while index < len(line) and line[index].isspace():
@@ -133,13 +132,10 @@ class LexicalAnalyzer:
 
     def getLookaheadToken(self):
         if not self.tokenList:
-            raise Exception ("no more tokens")
+            raise Exception("no more tokens")
         return self.tokenList[0]
 
     def getNextToken(self):
         if not self.tokenList:
-            raise Exception ("no more tokens")
+            raise Exception("no more tokens")
         return self.tokenList.pop(0)
-
-
-

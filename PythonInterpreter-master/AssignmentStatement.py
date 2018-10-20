@@ -3,16 +3,16 @@ from ArithmeticExpression import ArithmeticExpression
 from Id import Id
 from Memory import Memory
 
-class AssignmentStatement (Statement):
 
+class AssignmentStatement(Statement):
     var = None
     expr = None
 
     def __init__(self, var, expr):
-        if (var == None):
-            raise Exception ("Null Id Argument")
-        if (expr == None):
-            raise Exception ("Null ArithmeticExpression Expression")
+        if var is None:
+            raise Exception("Null Id Argument")
+        if expr is None:
+            raise Exception("Null ArithmeticExpression Expression")
         self.var = var
         self.expr = expr
 

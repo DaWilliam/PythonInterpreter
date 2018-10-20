@@ -1,15 +1,15 @@
 from Statement import Statement
 
-class RepeatStatement(Statement):
 
+class RepeatStatement(Statement):
     blk = None
     expr = None
 
     def __init__(self, blk, expr):
-        if blk == None:
+        if blk is None:
             raise Exception("null block argument")
-        if expr == None:
-            raise Exception ("null boolean expression argument")
+        if expr is None:
+            raise Exception("null boolean expression argument")
         self.blk = blk
         self.expr = expr
 

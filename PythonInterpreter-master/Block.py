@@ -7,7 +7,7 @@ class Block:
         self.stmts = []
 
     def add(self, stmt):
-        if(stmt == None):
+        if stmt is None:
             raise Exception("null statement argument")
         self.stmts.append(stmt)
 

@@ -1,6 +1,9 @@
 
 class Memory:
 
+    def __init__(self):
+        pass
+
     mem = [None] * 52
 
     @staticmethod

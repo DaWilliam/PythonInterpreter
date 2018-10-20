@@ -1,3 +1,4 @@
+from RepeatStatement import RepeatStatement
 from TokenType import TokenType
 from LexicalAnalyzer import LexicalAnalyzer
 from Id import Id
@@ -14,8 +15,8 @@ from BooleanExpression import BooleanExpression
 from WhileStatement import WhileStatement
 from ForStatement import ForStatement
 
-class Parser:
 
+class Parser:
     lex = None
 
     def __init__(self, fileName):
@@ -23,18 +24,18 @@ class Parser:
 
     def parse(self):
         tok = self.getNextToken()
-        self.match (tok, TokenType.FUNCTION_TOK)
+        self.match(tok, TokenType.FUNCTION_TOK)
         functionName = self.getId()
         tok = self.getNextToken()
-        self.match (tok, TokenType.LEFT_PAREN_TOK)
+        self.match(tok, TokenType.LEFT_PAREN_TOK)
         tok = self.getNextToken()
-        self.match (tok, TokenType.RIGHT_PAREN_TOK)
+        self.match(tok, TokenType.RIGHT_PAREN_TOK)
         blk = self.getBlock()
         tok = self.getNextToken()
-        self.match (tok, TokenType.END_TOK)
+        self.match(tok, TokenType.END_TOK)
         tok = self.getNextToken()
         if tok.getTokType() != TokenType.EOS_TOK:
-            raise Exception ("garbage at end of file")
+            raise Exception("garbage at end of file")
         return Program(blk)
 
     def getBlock(self):
@@ -63,47 +64,46 @@ class Parser:
         elif tok.getTokType() == TokenType.FOR_TOK:
             stmt = self.getForStatement()
         else:
-            raise Exception ("invalid statement at row " + tok.getRowNumber() +
-                             " and column " + tok.getColumnNumber())
+            raise Exception("invalid statement at row " + tok.getRowNumber() +
+                            " and column " + tok.getColumnNumber())
         return stmt
 
     def getAssignmentStatement(self):
         var = self.getId()
         tok = self.getNextToken()
-        self.match (tok, TokenType.ASSIGN_TOK)
+        self.match(tok, TokenType.ASSIGN_TOK)
         expr = self.getArithmeticExpression()
         return AssignmentStatement(var, expr)
 
     def getRepeatStatement(self):
-        tok = getNextToken()
-        match(tok, TokenType.REPEAT_TOK)
-        blk = getBlock()
-        tok = getNextToken()
-        match(tok, TokenType.UNTIL_TOK)
-        expr = getBooleanExpression()
+        tok = self.getNextToken()
+        self.match(tok, TokenType.REPEAT_TOK)
+        blk = self.getBlock()
+        tok = self.getNextToken()
+        self.match(tok, TokenType.UNTIL_TOK)
+        expr = self.getBooleanExpression()
         return RepeatStatement(blk, expr)
 
     def getPrintStatement(self):
         tok = self.getNextToken()
-        self.match (tok, TokenType.PRINT_TOK)
+        self.match(tok, TokenType.PRINT_TOK)
         tok = self.getNextToken()
-        self.match (tok, TokenType.LEFT_PAREN_TOK)
+        self.match(tok, TokenType.LEFT_PAREN_TOK)
         expr = self.getArithmeticExpression()
         tok = self.getNextToken()
-        self.match (tok, TokenType.RIGHT_PAREN_TOK)
+        self.match(tok, TokenType.RIGHT_PAREN_TOK)
         return PrintStatement(expr)
 
     def getWhileStatement(self):
         tok = self.getNextToken()
-        self.match (tok, TokenType.WHILE_TOK)
+        self.match(tok, TokenType.WHILE_TOK)
         expr = self.getBooleanExpression()
         tok = self.getNextToken()
-        self.match (tok, TokenType.DO_TOK)
+        self.match(tok, TokenType.DO_TOK)
         blk = self.getBlock()
         tok = self.getNextToken()
-        self.match (tok, TokenType.END_TOK)
+        self.match(tok, TokenType.END_TOK)
         return WhileStatement(expr, blk)
-
 
     def getIfStatement(self):
         tok = self.getNextToken()
@@ -120,7 +120,7 @@ class Parser:
         return IfStatement(expr, blk1, blk2)
 
     def isValidStartOfStatement(self, tok):
-        assert tok != None
+        assert tok is not None
         return tok.getTokType() == TokenType.ID_TOK or tok.getTokType() == TokenType.IF_TOK or tok.getTokType() == TokenType.WHILE_TOK or tok.getTokType() == TokenType.PRINT_TOK or tok.getTokType() == TokenType.REPEAT_TOK or tok.getTokType() == TokenType.FOR_TOK
 
     def getArithmeticExpression(self):
@@ -152,20 +152,23 @@ class Parser:
         elif tok.getTokType() == TokenType.DIV_TOK:
             op = ArithmeticOperator.DIV_OP
         else:
-            raise Exception ("arithmetic operator expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber())
+            raise Exception(
+                "arithmetic operator expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber())
         return op
 
     def getLiteralInteger(self):
         tok = self.getNextToken()
         if tok.getTokType() != TokenType.LITERAL_INTEGER_TOK:
-            raise Exception ("literal integer expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber())
+            raise Exception(
+                "literal integer expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber())
         value = int(tok.getLexeme())
         return LiteralInteger(value)
 
     def getId(self):
         tok = self.getNextToken()
         if tok.getTokType() != TokenType.ID_TOK:
-            raise Exception ("identifier expected at row " + tok.getRowNumber()  + " and column " + tok.getColumnNumber());
+            raise Exception(
+                "identifier expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber());
         return Id(tok.getLexeme()[0])
 
     def getBooleanExpression(self):
@@ -190,7 +193,8 @@ class Parser:
         elif (tok.getTokType() == TokenType.LE_TOK):
             op = RelationalOperator.LE_OP
         else:
-            raise Exception("relational operator expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber())
+            raise Exception(
+                "relational operator expected at row " + tok.getRowNumber() + " and column " + tok.getColumnNumber())
 
         return op
 
@@ -198,14 +202,15 @@ class Parser:
         assert tok != None
         assert tokType != None
         if tok.getTokType() != tokType:
-            raise Exception(str(tokType.name) + " expected at row " + str(tok.getRowNumber()) + " and column " + str(tok.getColumnNumber()))
+            raise Exception(str(tokType.name) + " expected at row " + str(tok.getRowNumber()) + " and column " + str(
+                tok.getColumnNumber()))
 
     def getLookaheadToken(self):
         tok = None
         try:
             tok = self.lex.getLookaheadToken()
         except:
-            raise Exception ("no more tokens")
+            raise Exception("no more tokens")
         return tok
 
     def getNextToken(self):
@@ -213,7 +218,7 @@ class Parser:
         try:
             tok = self.lex.getNextToken()
         except:
-            raise Exception ("no more tokens")
+            raise Exception("no more tokens")
         return tok
 
     def getForStatement(self):
@@ -229,6 +234,3 @@ class Parser:
         tok = self.getNextToken()
         self.match(tok, TokenType.END_TOK)
         return ForStatement(id, blk, end)
-
-
-

@@ -5,7 +5,7 @@ class Program:
     blk = None
 
     def __init__(self, blk):
-        if blk == None:
+        if blk is None:
             raise Exception ("null block argument")
         self.blk = blk
 

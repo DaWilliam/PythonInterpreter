@@ -1,8 +1,8 @@
 from Statement import Statement
 from Memory import Memory
 
-class ForStatement(Statement):
 
+class ForStatement(Statement):
     var = None
     blk = None
     end = None

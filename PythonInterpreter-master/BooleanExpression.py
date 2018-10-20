@@ -1,7 +1,7 @@
 from RelationalOperator import RelationalOperator
 
-class BooleanExpression:
 
+class BooleanExpression:
     op = None
 
     expr1 = None
@@ -11,7 +11,7 @@ class BooleanExpression:
         if op == None:
             raise Exception("null relational operator argument")
         if expr1 == None or expr2 == None:
-            raise Exception ("null arithmetic expression argument")
+            raise Exception("null arithmetic expression argument")
         self.op = op
         self.expr1 = expr1
         self.expr2 = expr2

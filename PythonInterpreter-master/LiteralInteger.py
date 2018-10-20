@@ -1,7 +1,7 @@
 from ArithmeticExpression import ArithmeticExpression
 
-class LiteralInteger(ArithmeticExpression):
 
+class LiteralInteger(ArithmeticExpression):
     value = None
 
     def __init__(self, value):
